@@ -12,11 +12,11 @@ import (
 	"vergil.com/practice/sawmill/app/model"
 )
 
-// Logger handle "/log" uri for receiving logs
-type Logger struct{}
+// HTTPLogger handle "/log" uri for receiving logs
+type HTTPLogger struct{}
 
 // ServeHTTP implement http.Handler interface
-func (l *Logger) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func (l *HTTPLogger) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	// Check http request method
 	if r.Method != "POST" {

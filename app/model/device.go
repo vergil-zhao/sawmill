@@ -13,7 +13,7 @@ type Device struct {
 
 func (d *Device) String() string {
 	b := bytes.Buffer{}
-	b.WriteString(d.Model + " - " + d.UUID + "\n\t")
+	b.WriteString("[" + d.Model + ":" + d.UUID + "]")
 	for _, l := range d.Logs {
 		b.WriteString(l.String())
 	}

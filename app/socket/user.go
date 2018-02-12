@@ -1,7 +1,6 @@
 package socket
 
 import (
-	"fmt"
 	"log"
 	"net"
 
@@ -15,7 +14,7 @@ type User struct{}
 var DefaultUser = new(User)
 
 // StartSocketLogger start to record logs on socket
-func (u *User) StartSocketLogger() {
+func (u *User) StartSocketLogger(block func(conn net.Conn)) {
 	l, e := net.Listen("tcp", config.UserSocket)
 	if e != nil {
 		log.Println("Listen to user socket failed:", e)
@@ -27,17 +26,6 @@ func (u *User) StartSocketLogger() {
 		if err != nil {
 			log.Println("Accept new user failed:", e)
 		}
-		go u.acceptLog(conn)
+		go block(conn)
 	}
-}
-
-func (u *User) acceptLog(conn net.Conn) {
-	read := true
-	data := make([]byte, 4096)
-	for read {
-		count, err := conn.Read(data)
-		read = (err == nil)
-		fmt.Println(string(data[0:count]))
-	}
-	conn.Close()
 }

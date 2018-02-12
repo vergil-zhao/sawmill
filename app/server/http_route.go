@@ -1,4 +1,4 @@
-package http
+package server
 
 import (
 	"net/http"
@@ -8,5 +8,5 @@ import (
 
 // SetupRoute setting routes here
 func SetupRoute() {
-	http.Handle("/log", &handler.Logger{})
+	http.Handle("/log", &handler.HTTPLogger{})
 }

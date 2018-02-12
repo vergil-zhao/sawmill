@@ -1,15 +1,15 @@
 package main
 
 import (
-	"vergil.com/practice/sawmill/app/http"
+	"vergil.com/practice/sawmill/app/server"
 	"vergil.com/practice/sawmill/app/socket"
 )
 
 func main() {
 
 	go socket.DefaultAdmin.StartAdminSocket()
-
-	go http.StartHTTPServer()
+	go server.StartSocketServer()
+	go server.StartHTTPServer()
 
 	for {
 	}
