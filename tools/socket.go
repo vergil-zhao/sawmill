@@ -12,18 +12,24 @@ func main() {
 		return
 	}
 
-	for i := 0; i < 100; i++ {
+	ch := make(chan int, 0)
+	for i := 0; i < 1; i++ {
 		go func() {
-			conn.Write([]byte(`{"UUID":"123","Model":"iphone8,2","Logs":[{"Level":0,"Message":"Just a fresh log.","File":"log.swift","Line":100,"Time":"2018-02-08T13:41:05+08:00"}]}`))
+			_, e := conn.Write([]byte("{\"UUID\":\"123\",\"Model\":\"iphone8,2\",\"Logs\":[{\"Level\":0,\"Message\":\"Just a fresh log.\",\"File\":\"log.swift\",\"Line\":100,\"Time\":\"2018-02-08T13:41:05+08:00\"}]}\x01"))
+			if e != nil {
+				fmt.Println(e)
+			}
+			ch <- 1
 		}()
 	}
+	<-ch
 
-	read := true
-	data := make([]byte, 4096)
-	for read {
-		count, err := conn.Read(data)
-		read = (err == nil)
-		fmt.Println(string(data[0:count]))
-	}
+	// read := true
+	// data := make([]byte, 4096)
+	// for read {
+	// 	count, err := conn.Read(data)
+	// 	read = (err == nil)
+	// 	fmt.Println(string(data[0:count]))
+	// }
 	conn.Close()
 }

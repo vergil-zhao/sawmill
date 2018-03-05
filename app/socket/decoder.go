@@ -2,9 +2,13 @@ package socket
 
 import (
 	"encoding/json"
+	"log"
 
 	"vergil.com/practice/sawmill/app/model"
 )
+
+// ByteDataSeperator Seperator of byte data "\x01"
+const ByteDataSeperator byte = 1
 
 // Decoder decode binary log data to string
 type Decoder struct {
@@ -21,10 +25,12 @@ type DecoderDelegate interface {
 func (d *Decoder) Decode(b []byte) {
 	data := ByteData(b)
 	copy(d.data, data)
-	if data.Contains(0) {
-		pieces := d.data.Split(0)
+	if data.Contains(1) {
+		pieces := d.data.Split(1)
 		d.data = []byte{}
 		for _, piece := range pieces {
+			log.Println(piece)
+			log.Println(string(piece))
 			log := new(model.Device)
 			json.Unmarshal(piece, log)
 			d.Delegate.LogDecoded(log)

@@ -1,6 +1,8 @@
 package handler
 
 import (
+	"fmt"
+
 	"vergil.com/practice/sawmill/app/model"
 	"vergil.com/practice/sawmill/app/socket"
 )
@@ -18,5 +20,5 @@ func NewSocketLogger(d *socket.Decoder) *SocketLogger {
 
 // LogDecoded interface method from DecoderDelegate
 func (l *SocketLogger) LogDecoded(log *model.Device) {
-	// fmt.Println(log)
+	fmt.Println(log)
 }
